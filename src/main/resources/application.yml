@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kotlinbase
+    username: postgres
+    password: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: base
+#       This property implies a new transaction and DB connection per each lazy load after a call to a JPARepository
+#        Consider using eager loading when needed to avoid n+1 problem
+        enable_lazy_load_no_trans: true
+
+    hibernate:
+      ddl-auto: update
+
+baseproject:
+  jwtSecret: TheDefinitiveSecret
+#  jwtExpirationMs: 3600000
+#  jwtRefreshExpirationMs: 86400000
+  jwtExpirationMs: 5000
+  jwtRefreshExpirationMs: 15000
+  jwtIssuerName: kotlinBaseIssuer
