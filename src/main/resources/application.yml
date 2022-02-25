@@ -1,6 +1,9 @@
+server:
+  port: 8081
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/kotlinbase
+    url: jdbc:postgresql://db:5432/kotlinbase
     username: postgres
     password: postgres
 

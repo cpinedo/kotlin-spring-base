@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.6.3"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id ("com.palantir.docker") version "0.22.1"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
@@ -24,8 +25,8 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
-	implementation("ch.qos.logback:logback-classic:1.2.6")
+	implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
+	implementation("ch.qos.logback:logback-classic:1.2.10")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -45,4 +46,10 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+docker {
+	name = "${project.name}:${project.version}"
+	files("build/libs/${project.name}-${project.version}.jar")
+	setDockerfile(File("/deployment/app/Dockerfile"))
 }

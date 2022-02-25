@@ -57,6 +57,7 @@ class WebSecurityConfig(
             .authorizeRequests()
             .antMatchers("/auth/**").permitAll()
             .antMatchers("/test/**").permitAll()
+//            .antMatchers("/**").permitAll()
             .anyRequest().authenticated()
         http.addFilterBefore(
             authenticationJwtTokenFilter(jwtUtils, userDetailsService),
