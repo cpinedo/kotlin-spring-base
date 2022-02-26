@@ -51,5 +51,5 @@ tasks.withType<Test> {
 docker {
 	name = "${project.name}:${project.version}"
 	files("build/libs/${project.name}-${project.version}.jar")
-	setDockerfile(File("/deployment/app/Dockerfile"))
+	setDockerfile(File("deployment/app/Dockerfile"))
 }
