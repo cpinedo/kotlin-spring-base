@@ -26,7 +26,7 @@ class RefreshTokenHandler(
             .map { oldRefreshToken ->
                 val user = oldRefreshToken?.userId?.let { userService.findUserById(it) }
                 val jwt: JwtToken = jwtUtils.generateTokenFromUsername(user!!.username)
-                val refreshToken: RefreshTokenData = refreshTokenService.createRefreshToken(user.id)
+                val refreshToken: RefreshTokenData = refreshTokenService.refreshRefreshToken(oldRefreshToken)
 
                 RefreshTokenResponse(jwt, refreshToken)
             }

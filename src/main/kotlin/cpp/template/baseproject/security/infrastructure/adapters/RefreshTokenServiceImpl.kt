@@ -28,20 +28,25 @@ class RefreshTokenServiceImpl(
         refreshToken.user = userRepository.findById(userId).orElse(null)
         refreshToken.expiryDate = Instant.now().plusMillis(configurationValues.refreshTokenDurationMs)
         refreshToken.token = UUID.randomUUID().toString()
+        refreshToken.sessionExpiryDate = Instant.now().plusMillis(configurationValues.sessionDurationMs)
         refreshToken = refreshTokenRepository.save(refreshToken)
         return refreshToken.toRefreshTokenData()
     }
 
     override fun refreshRefreshToken(oldRefreshToken: RefreshTokenData): RefreshTokenData {
         refreshTokenRepository.findById(oldRefreshToken.id).let {
-            it.get().expiryDate = Instant.now().plusMillis(configurationValues.refreshTokenDurationMs)
+            val expiryDate = Instant.now().plusMillis(configurationValues.refreshTokenDurationMs)
+            if(expiryDate.isBefore(oldRefreshToken.sessionExpiryDate))
+                it.get().expiryDate = expiryDate
+            else
+                it.get().expiryDate = oldRefreshToken.sessionExpiryDate
             it.get().token = UUID.randomUUID().toString()
             return refreshTokenRepository.save(it.get()).toRefreshTokenData()
         }
     }
 
     override fun verifyExpiration(token: RefreshTokenData): RefreshTokenData? {
-        if ((token.expiryDate == null) || (token.expiryDate < Instant.now())) {
+        if ((token.expiryDate == null) || (token.expiryDate < Instant.now()) || (token.sessionExpiryDate == null) || (token.sessionExpiryDate < Instant.now())) {
             refreshTokenRepository.findById(token.id).let {
                 refreshTokenRepository.delete(it.get())
             }

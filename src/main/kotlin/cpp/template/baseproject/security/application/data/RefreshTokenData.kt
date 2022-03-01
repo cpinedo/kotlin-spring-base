@@ -7,5 +7,6 @@ data class RefreshTokenData(
     val id: UUID,
     val userId: UUID?,
     val token: String?,
-    val expiryDate: Instant?
+    val expiryDate: Instant?,
+    val sessionExpiryDate: Instant?
 )

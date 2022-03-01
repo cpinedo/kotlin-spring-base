@@ -20,9 +20,12 @@ class RefreshToken(
     var token: String? = null,
 
     @Column(nullable = false)
-    var expiryDate: Instant? = null
+    var expiryDate: Instant? = null,
+
+    @Column(nullable = false)
+    var sessionExpiryDate: Instant? = null
 ){
     fun toRefreshTokenData(): RefreshTokenData{
-        return RefreshTokenData(this.id, this.user?.id, this.token, this.expiryDate)
+        return RefreshTokenData(this.id, this.user?.id, this.token, this.expiryDate, this.sessionExpiryDate)
     }
 }

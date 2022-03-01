@@ -17,4 +17,7 @@ class SecurityConfigurationValues {
     @Value("\${baseproject.jwtExpirationMs}")
     val jwtExpirationMs: Long = 0
 
+    @Value("\${baseproject.sessionDurationMs}")
+    val sessionDurationMs: Long = 0
+
 }

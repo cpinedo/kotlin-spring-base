@@ -20,12 +20,14 @@ spring:
         enable_lazy_load_no_trans: true
 
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
 baseproject:
   jwtSecret: TheDefinitiveSecret
-#  jwtExpirationMs: 3600000
-#  jwtRefreshExpirationMs: 86400000
+#  jwtExpirationMs: 300000
+#  jwtRefreshExpirationMs: 1800000
+#  sessionDurationMs: 36000000
   jwtExpirationMs: 5000
   jwtRefreshExpirationMs: 15000
+  sessionDurationMs: 40000
   jwtIssuerName: kotlinBaseIssuer

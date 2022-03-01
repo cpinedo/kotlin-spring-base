@@ -41,6 +41,26 @@ CREATE TABLE IF NOT EXISTS base.user_roles
 ALTER TABLE IF EXISTS base.user_roles
     OWNER to postgres;
 
+CREATE TABLE IF NOT EXISTS base.refresh_token
+(
+    id uuid NOT NULL,
+    expiry_date timestamp without time zone NOT NULL,
+    session_expiry_date timestamp without time zone NOT NULL,
+    token character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    user_id uuid,
+    CONSTRAINT refresh_token_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_r4k4edos30bx9neoq81mdvwph UNIQUE (token),
+    CONSTRAINT fkjtx87i0jvq2svedphegvdwcuy FOREIGN KEY (user_id)
+        REFERENCES base.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+    TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS base.refresh_token
+    OWNER to postgres;
+
 INSERT INTO base.roles(
     id, name, role)
 VALUES ('b27944d2-8dc8-11ec-b909-0242ac120002', 'user', 0);
